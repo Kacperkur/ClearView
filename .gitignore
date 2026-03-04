@@ -1,0 +1,57 @@
+# Environment variables
+.env
+.env.*
+
+# Kaggle credentials
+~/.kaggle/kaggle.json
+
+# Dataset & large data files
+data/raw/
+data/processed/
+data/demo/
+*.zip
+*.tar.gz
+*.tar
+
+# Trained models
+models/
+*.pt
+*.pth
+*.h5
+*.keras
+*.onnx
+*.pkl
+*.joblib
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs & temp files
+*.log
+*.tmp
