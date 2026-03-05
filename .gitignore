@@ -5,10 +5,8 @@
 # Kaggle credentials
 ~/.kaggle/kaggle.json
 
-# Dataset & large data files
-data/raw/
-data/processed/
-data/demo/
+# Dataset & large data files — use the provided download script to get the data
+data/
 *.zip
 *.tar.gz
 *.tar
@@ -55,3 +53,13 @@ Thumbs.db
 # Logs & temp files
 *.log
 *.tmp
+
+# instructions
+instructions.md
+
+# Product IP — roadmap and strategy docs
+SprintPlan.md
+
+# Active config (contains product strategy, checkpoint paths, thresholds)
+# Commit config.example.yaml instead with placeholder values
+config.yaml

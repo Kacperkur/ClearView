@@ -1,0 +1,56 @@
+# ============================================================
+# AI Image & Deepfake Detector
+# Python 3.13 compatible — tested against PyTorch >= 2.6
+# ============================================================
+
+# --- Core ML ---
+torch>=2.6.0
+torchvision>=0.21.0
+torchaudio>=2.6.0
+
+# --- Model Zoo (ViT, EfficientNet, etc.) ---
+timm>=1.0.0
+transformers>=4.40.0
+accelerate>=0.30.0
+
+# --- Image Processing ---
+Pillow>=10.3.0
+opencv-python>=4.9.0.80
+albumentations>=1.4.0
+scikit-image>=0.22.0
+
+# --- Frequency / Signal Analysis ---
+numpy>=1.26.0
+scipy>=1.13.0
+pywavelets>=1.6.0
+
+# --- EXIF Metadata ---
+piexif>=1.1.3
+exifread>=3.0.0
+
+# --- Explainability (GradCAM) ---
+grad-cam>=1.5.0
+
+# --- Data / ML Utilities ---
+scikit-learn>=1.4.0
+pandas>=2.2.0
+
+# --- Visualization ---
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# --- Jupyter Notebook ---
+jupyter>=1.0.0
+ipywidgets>=8.1.0
+ipython>=8.24.0
+
+# --- CLI ---
+click>=8.1.7
+rich>=13.7.0
+
+# --- Config ---
+pyyaml>=6.0.1
+python-dotenv>=1.0.1
+
+# --- HTTP / URL input support ---
+requests>=2.31.0

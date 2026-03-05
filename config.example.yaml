@@ -1,0 +1,150 @@
+# ============================================================
+# AI Image & Deepfake Detector — Config Template
+# Copy to config.yaml and fill in your values.
+# ============================================================
+
+# ── Project ─────────────────────────────────────────────────
+project:
+  name: "your-project-name"
+  version: "0.1.0"
+  description: "Your project description"
+
+# ── Paths ────────────────────────────────────────────────────
+paths:
+  data_raw: "data/raw/"
+  data_processed: "data/processed/"
+  sample_inputs: "data/sample_inputs/"
+  model_checkpoints: "models/"
+  outputs: "outputs/"
+  logs: "logs/"
+
+# ── Model ────────────────────────────────────────────────────
+model:
+  # Options: "vit_base_patch16_224", "efficientnet_b3", "vit_large_patch14_clip_336"
+  backbone: "efficientnet_b3"
+  pretrained: true
+  num_classes: 2
+  image_size: 224
+  freeze_backbone_epochs: 3
+  unfreeze_last_n_blocks: 4
+  dropout: 0.2
+
+# ── Training ─────────────────────────────────────────────────
+training:
+  epochs: 20
+  batch_size: 32
+  learning_rate: 2.0e-5
+  weight_decay: 1.0e-4
+  label_smoothing: 0.1
+  optimizer: "adamw"           # Options: adamw, adam, sgd
+  scheduler: "cosine"          # Options: cosine, step, plateau
+  early_stopping_patience: 5
+  grad_clip_norm: 1.0
+  mixed_precision: true
+  seed: 42
+
+# ── Data ─────────────────────────────────────────────────────
+data:
+  train_split: 0.75
+  val_split: 0.15
+  test_split: 0.10
+  num_workers: 4
+  pin_memory: true
+  prefetch_factor: 2
+  persistent_workers: true
+
+  augmentation:
+    random_horizontal_flip: true
+    random_resized_crop: true
+    color_jitter:
+      brightness: 0.2
+      contrast: 0.2
+      saturation: 0.2
+      hue: 0.1
+    gaussian_blur: true
+    jpeg_compression:
+      enabled: true
+      quality_range: [50, 95]
+
+  normalize:
+    mean: [0.485, 0.456, 0.406]   # ImageNet stats
+    std: [0.229, 0.224, 0.225]
+
+# ── Datasets ─────────────────────────────────────────────────
+datasets:
+  cifake:
+    enabled: true
+    path: "data/cifake-real-and-ai-generated-synthetic-images"
+    source: "https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images"
+
+  # Additional datasets disabled by default
+  artifact:
+    enabled: false
+    path: "data/raw/artifact/"
+
+  faceforensics:
+    enabled: false
+    path: "data/raw/faceforensics/"
+
+# ── Inference ────────────────────────────────────────────────
+inference:
+  confidence_threshold: 0.75
+  device: "auto"               # Options: auto, cpu, cuda, mps
+  batch_size: 16
+
+  exif:
+    enabled: true
+    flag_missing_camera_model: true
+    flag_missing_gps: false
+    flag_missing_datetime: true
+
+  gradcam:
+    enabled: true
+    target_layer: "blocks[-1].norm1"
+    save_heatmap: true
+    heatmap_alpha: 0.5
+
+# ── Output ───────────────────────────────────────────────────
+output:
+  format: "rich"
+  save_results_csv: false
+  show_confidence_bar: true
+
+# ── Forensic Features ────────────────────────────────────────
+forensic_features:
+  enabled: true
+  feature_dim: 102
+  cache_path: "data/processed/features_cache_v2.npz"
+  ela_quality_levels: [75, 85, 95]
+  lbp_scales:
+    - {radius: 1, n_points: 8}
+    - {radius: 3, n_points: 24}
+    - {radius: 5, n_points: 40}
+  exif_fields_checked:
+    - "MakerNote"
+    - "ThumbnailImage"
+    - "SubSecTimeOriginal"
+    - "LensModel"
+    - "ExposureTime"
+    - "FNumber"
+
+# ── Labels ───────────────────────────────────────────────────
+labels:
+  0: "REAL"
+  1: "AI-GENERATED"
+
+# ── Continual Learning ───────────────────────────────────────
+continual_learning:
+  enabled: true
+  active_checkpoint: "models/your_checkpoint.pt"
+  checkpoint_history: []
+
+  learning_rates:
+    stage_1: 5.0e-6
+    stage_2: 1.0e-6
+    stage_3: 5.0e-7
+
+  replay_buffer_path: "data/replay_buffer/"
+  replay_ratio: 0.20
+  freeze_backbone: true
+  unfreeze_last_n_blocks: 2
